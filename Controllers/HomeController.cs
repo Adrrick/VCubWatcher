@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using VCubWatcher.Models;
 
@@ -20,7 +22,8 @@ namespace VCubWatcher.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var stations = GetBikeStationListFromApi();
+            return View(stations);
         }
 
         public IActionResult Stations()
@@ -42,6 +45,15 @@ namespace VCubWatcher.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private static readonly HttpClient client = new HttpClient();
+        private static List<BikeStation> GetBikeStationListFromApi()
+        {
+            var stringTask = client.GetStringAsync("https://api.alexandredubois.com/vcub-backend/vcub.php");
+            var myJsonResponse = stringTask.Result;
+            var result = JsonConvert.DeserializeObject<List<BikeStation>>(myJsonResponse);
+            return result;
         }
     }
 }
