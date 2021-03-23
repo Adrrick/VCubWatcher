@@ -31,7 +31,7 @@
             @foreach (var station in Model)
             {
                 <text>
-            "@station.Name": { "lat": @station.Latitude, "lon": @station.Longitude},
+            "@station.Name": { "lat": @station.Latitude, "lon": @station.Longitude, "label": "@Html.Raw(String.Format("Vélo(s) : {0}, Place(s) : {1}", station.BikeCountTotal, station.SlotCount))"},
                 </text>
             }
         };
