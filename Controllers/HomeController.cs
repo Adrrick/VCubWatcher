@@ -22,18 +22,19 @@ namespace VCubWatcher.Controllers
 
         public IActionResult Index()
         {
-            var stations = GetBikeStationListFromApi();
-            return View(stations);
+            return View();
         }
 
         public IActionResult Stations()
         {
-            return View();
+            var stations = GetBikeStationListFromApi();
+            return View(stations);
         }
 
         public IActionResult Map()
         {
-            return View();
+            var stations = GetBikeStationListFromApi();
+            return View(stations);
         }
 
         public IActionResult Favorites()
